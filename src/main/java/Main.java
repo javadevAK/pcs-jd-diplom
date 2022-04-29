@@ -16,29 +16,34 @@ public class Main {
 
         int port = 8989;
 
-        while (true) {
-            ServerSocket serverSocket = new ServerSocket(port);
-            //ждём подключения, когда происходит соединение
-            Socket clientSocket = serverSocket.accept();
-            // отправлять
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            // получать сообщения
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        try (ServerSocket serverSocket = new ServerSocket(port);
+             //ждём подключения, когда происходит соединение
+             Socket clientSocket = serverSocket.accept();
+             // отправлять
+             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+             // получать сообщения
+             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
             System.out.printf("New connection accepted. Port %d%n", clientSocket.getPort());
 
-            // ждем клиента
-            final String wordSearch = in.readLine();
-            //String wordSearch = "бизнес";
-            // отвечаем клиенту
-            List<PageEntry> list = engine.search(wordSearch);
-            serverSocket.close();
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            Type listType = new TypeToken<List<PageEntry>>() {}.getType();
+            while (true) {
 
-            out.println(gson.toJson(list, listType));
+                // ждем клиента
+                final String wordSearch = in.readLine();
+                //String wordSearch = "бизнес";
+                // отвечаем клиенту
+                List<PageEntry> list = engine.search(wordSearch);
+                serverSocket.close();
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                Type listType = new TypeToken<List<PageEntry>>() {
+                }.getType();
 
+                out.println(gson.toJson(list, listType));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

@@ -18,13 +18,13 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
 
-
-            System.out.println("Введите слово для поиска: ");
-            String searchWord = scanner.nextLine();
-            out.println(searchWord);
-            String resp = in.readLine();
-            System.out.println(resp);
-
+            while (true) {
+                System.out.println("Введите слово для поиска: ");
+                String searchWord = scanner.nextLine();
+                out.println(searchWord);
+                String resp = in.readLine();
+                System.out.println(resp);
+            }
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
