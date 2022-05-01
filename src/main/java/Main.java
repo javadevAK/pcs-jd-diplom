@@ -16,9 +16,11 @@ public class Main {
 
         int port = 8989;
 
-        try (ServerSocket serverSocket = new ServerSocket(port);
-             //ждём подключения, когда происходит соединение
-             Socket clientSocket = serverSocket.accept();
+        ServerSocket serverSocket = new ServerSocket(port);
+        //try (ServerSocket serverSocket = new ServerSocket(port);
+        //ждём подключения, когда происходит соединение
+        try (Socket clientSocket = serverSocket.accept();
+             //    Socket clientSocket = serverSocket.accept();
              // отправлять
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              // получать сообщения
