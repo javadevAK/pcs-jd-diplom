@@ -55,6 +55,7 @@ public class BooleanSearchEngine implements SearchEngine {
     @Override
     public List<PageEntry> search(String word) {
         // тут реализуйте поиск по слову
+        word = word.toLowerCase(Locale.ROOT);
         List<PageEntry> pageEntries = indexWords.get(word);
         Collections.sort(pageEntries);
         return pageEntries;
